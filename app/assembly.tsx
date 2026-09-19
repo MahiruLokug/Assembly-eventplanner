@@ -103,10 +103,14 @@ export default function Assembly() {
       <div className="school-strip">
         <span>
           <span className="tiny-square" />
-          NALANDA COLLEGE <span className="strip-slash">/</span> Countless events, one website
+          <span className="strip-school">NALANDA COLLEGE</span>
+          <span className="strip-slash">/</span>
+          <span className="strip-tagline">Countless events, one website</span>
         </span>
         <span>
-          Colombo, Sri Lanka <span className="strip-slash">·</span> Built by Mahiru Lokugamage
+          <span className="strip-location">Colombo, Sri Lanka</span>
+          <span className="strip-slash">·</span>
+          <span>Built by Mahiru Lokugamage</span>
         </span>
       </div>
       <main id="main">
@@ -407,6 +411,9 @@ function CalendarView({
   const first =
       (new Date(month.getFullYear(), month.getMonth(), 1).getDay() + 6) % 7,
     days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
+  const monthKey = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}`;
+  const monthEvents = events.filter((event) => event.starts.startsWith(monthKey))
+    .sort((a, b) => a.starts.localeCompare(b.starts));
   return (
     <section className="calendar-section">
       <div className="section-heading">
@@ -441,6 +448,26 @@ function CalendarView({
             <ChevronRight />
           </Button>
         </div>
+      </div>
+      <div className="mobile-agenda" aria-label="Events this month">
+        {monthEvents.length === 0 ? (
+          <div className="agenda-empty"><h3>A little breathing room.</h3>
+            <p>No events scheduled this month. Explore another month using the arrows above.</p></div>
+        ) : monthEvents.map((event) => (
+          <button className="agenda-event" key={event.id} onClick={() => open(event)}>
+            <span className="agenda-date">
+              <b>{Number(event.starts.slice(8, 10))}</b>
+              <span>{new Date(event.starts).toLocaleDateString("en-GB", { weekday: "short", timeZone: "Asia/Colombo" })}</span>
+            </span>
+            <span className="agenda-info">
+              <span className={`category-label cat-${event.category.split(" ")[0].toLowerCase()}`}>{event.category}</span>
+              <strong>{event.title}</strong>
+              <span>{timeLabel(event.starts)} · {event.venue}</span>
+              {event.status === "cancelled" && <span>Cancelled</span>}
+            </span>
+            <ArrowUpRight size={18} />
+          </button>
+        ))}
       </div>
       <div className="calendar-grid">
         {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
