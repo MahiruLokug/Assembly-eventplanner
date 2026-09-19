@@ -1662,3 +1662,66 @@ footer {
 .main-tabs [data-slot="tabs-trigger"][data-state="active"] { color: #711f3d; }
 .main-tabs [data-slot="tabs-trigger"]:after { background: #711f3d !important; }
 .next-up { border-top: 3px solid #cec2cd; box-shadow: 0 8px 22px -18px #54223a40; }
+
+/* Direct page title and a complete, touch-friendly mobile month view. */
+.page-heading h1 { font-family: Georgia, serif; font-size: clamp(36px, 4.3vw, 58px); font-weight: 400; letter-spacing: -1.8px; line-height: 1.15; margin-block: 10px 12px; }
+.page-heading { padding-block: 48px 38px; }
+.intro { line-height: 1.7; }
+.mobile-month { display: none; }
+@media (max-width: 760px) {
+  .page-heading { padding-block: 36px 30px; }
+  .page-heading h1 { font-size: 38px; letter-spacing: -1.3px; }
+  .intro { font-size: 16px; max-width: 34ch; }
+  .nav-row { margin-bottom: 28px; }
+  .calendar-section .section-heading { display: block; margin-bottom: 24px; }
+  .calendar-section .section-heading h2 { font-size: 30px; }
+  .calendar-section .eyebrow { font-size: 11px; margin-bottom: 8px; }
+  .calendar-controls { margin-top: 20px; justify-content: flex-end; gap: 10px; }
+  .calendar-controls button:first-child { margin-right: auto; padding-inline: 18px; }
+  .mobile-month { display: block; background: #ffffff; border: 1px solid #d3cbd3; border-radius: 16px; padding: 16px 8px; box-shadow: 0 6px 18px -14px #54223a40; }
+  .mobile-month-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px 2px; }
+  .mobile-weekday { text-align: center; padding-block: 8px 12px; color: #736873; font-size: 11px; font-weight: 600; }
+  .mobile-day { min-width: 0; min-height: 50px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 2px; font-size: 15px; font-variant-numeric: tabular-nums; border: 1px solid transparent; border-radius: 9px; }
+  .mobile-day.has-events { color: #711f3d; background: #f4ecf0; font-weight: 700; }
+  .mobile-day:hover { background: #eeeaef; }
+  .mobile-day[aria-pressed="true"] { background: #711f3d; border-color: #711f3d; color: #ffffff; }
+  .mobile-day:focus-visible { outline: 2px solid #711f3d; outline-offset: 1px; }
+  .day-marker { height: 10px; line-height: 10px; font-size: 12px; }
+  .calendar-legend { display: flex; align-items: center; gap: 8px; margin: 18px 6px 2px; font-size: 12px; color: #6b6269; }
+  .calendar-legend > span { width: 6px; height: 6px; border-radius: 50%; background: #711f3d; flex-shrink: 0; }
+  .mobile-agenda { border-top: 0; margin-top: 30px; }
+  .agenda-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .agenda-heading h3 { font-size: 18px; font-weight: 600; line-height: 1.4; }
+  .agenda-heading button { color: #711f3d; min-height: 44px; font-size: 13px; text-decoration: underline; text-underline-offset: 4px; flex-shrink: 0; }
+  .agenda-event { padding-block: 26px; }
+  .agenda-info { gap: 10px; }
+  .agenda-info strong { line-height: 1.5; }
+  .agenda-info > span:last-child { line-height: 1.6; }
+  .calendar-note { margin-top: 24px; line-height: 1.7; }
+}
+
+
+/* Keep organiser-provided event content within the spotlight layout. */
+.feature-main > div:first-child { min-width: 0; flex: 1; }
+.feature h2, .next-up h3 { overflow-wrap: anywhere; }
+.feature-tag { overflow-wrap: anywhere; text-align: right; }
+.spotlight-description { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.feature-date { flex-shrink: 0; }
+.countdown > div { min-width: 0; }
+.countdown b { font-size: clamp(24px, 2.5vw, 38px); }
+@media (max-width: 760px) { .countdown b { font-size: 34px; } }
+
+/* Higher-contrast school identity with one continuous mobile strip. */
+.page-heading h1 em { color: #711f3d; }
+.school-strip { background: #681d38; color: #f5f1f5; border-color: #54162d; }
+.school-strip .strip-school { color: #ffffff; }
+.school-strip .strip-tagline { color: #f1e9ee; }
+.school-strip .strip-slash { color: #cdb9c3; }
+.school-strip .tiny-square { background: #d9cbd4; }
+@media (max-width: 760px) {
+  .school-strip { flex-direction: row; flex-wrap: nowrap; align-items: center; justify-content: flex-start; gap: 20px; padding: 13px 20px; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; scrollbar-width: thin; scrollbar-color: #b796a6 #681d38; }
+  .school-strip > span:first-child, .school-strip > span:last-child { display: flex; flex-direction: row; flex-wrap: nowrap; align-items: center; flex-shrink: 0; gap: 9px; padding-left: 0; font-size: 11px; }
+  .school-strip > span:first-child > .strip-slash { display: inline; margin-inline: 2px; }
+  .school-strip .strip-tagline { font-size: 12px; }
+  .school-strip > span:last-child { border-left: 1px solid #a37388; padding-left: 20px; }
+}

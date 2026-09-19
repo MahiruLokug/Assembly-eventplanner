@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { nextUpcomingEvent } from "@/lib/spotlight";
 import {
   ArrowUpRight,
   ArrowRight,
@@ -46,7 +47,7 @@ export default function Assembly() {
   useEffect(() => {
     setNow(Date.now());
     const t = setInterval(() => setNow(Date.now()), 1000);
-    fetch("/api/events")
+    const refresh = () => fetch("/api/events")
       .then((r) => {
         if (!r.ok)
           throw Error(
@@ -60,10 +61,15 @@ export default function Assembly() {
       .then((d) => {
         setEvents(d.events);
         setNotices(d.notices);
+        setError("");
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-    return () => clearInterval(t);
+    refresh();
+    const refreshTimer = setInterval(refresh, 60000);
+    const onVisible = () => { if (document.visibilityState === "visible") { setNow(Date.now()); refresh(); } };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => { clearInterval(t); clearInterval(refreshTimer); document.removeEventListener("visibilitychange", onVisible); };
   }, []);
   const filtered = events.filter(
     (e) =>
@@ -73,7 +79,9 @@ export default function Assembly() {
         .toLowerCase()
         .includes(search.toLowerCase()),
   );
-  const featured = events.find((e) => e.id === "innovation-2026") || events[0];
+  const featured = now !== null && !loading && !error ? nextUpcomingEvent(events, now) : null;
+  const spotlightPending = loading || now === null;
+  const spotlightEmptyTitle = spotlightPending ? "Loading the next event…" : error ? "Events are temporarily unavailable" : "No upcoming events";
   const remaining =
     now && featured
       ? Math.max(0, new Date(featured.starts).getTime() - now)
@@ -100,7 +108,7 @@ export default function Assembly() {
           Organiser access <ArrowUpRight size={16} />
         </a>
       </header>
-      <div className="school-strip">
+      <div className="school-strip" role="region" aria-label="School and creator information" tabIndex={0}>
         <span>
           <span className="tiny-square" />
           <span className="strip-school">NALANDA COLLEGE</span>
@@ -117,9 +125,7 @@ export default function Assembly() {
         <div className="page-heading">
           <div>
             <p className="eyebrow">A PLACE TO COME TOGETHER</p>
-            <h1>
-              School life. <em>All here.</em>
-            </h1>
+            <h1>School life. <em>All here.</em></h1>
             <p className="intro">
               Find your next event. Make room for what matters.
             </p>
@@ -160,65 +166,48 @@ export default function Assembly() {
               <section className="feature">
                 <div className="feature-top">
                   <span className="eyebrow">IN THE SPOTLIGHT</span>
-                  <span className="feature-tag">SCIENCE & TECHNOLOGY</span>
+                  {featured && <span className="feature-tag">{featured.category}</span>}
                 </div>
-                <div className="feature-main">
-                  <div>
-                    <p className="feature-pre">
-                      STUDENT INNOVATION EXHIBITION ’26
-                    </p>
-                    <h2>{featured.title}</h2>
-                    <p>
-                      A day of big questions.
-                      <br />
-                      And even bigger possibilities.
-                    </p>
-                    <Button
-                      className="gold-button"
-                      onClick={() => open(featured)}
-                    >
-                      Explore the event <ArrowUpRight />
-                    </Button>
+                {featured ? <>
+                  <div className="feature-main">
+                    <div>
+                      <p className="feature-pre">NEXT SCHOOL EVENT · {featured.organizer}</p>
+                      <h2>{featured.title}</h2>
+                      <p className="spotlight-description">{featured.description}</p>
+                      <Button className="gold-button" onClick={() => open(featured)}>
+                        Explore the event <ArrowUpRight />
+                      </Button>
+                    </div>
+                    <div className="feature-date">
+                      <span>{dateParts(featured.starts).month.toUpperCase()}</span>
+                      <strong>{dateParts(featured.starts).day}</strong>
+                      <span>{new Date(featured.starts).toLocaleDateString("en-GB", { weekday: "short", timeZone: "Asia/Colombo" }).toUpperCase()} · {timeLabel(featured.starts)}</span>
+                    </div>
                   </div>
-                  <div className="feature-date">
-                    <span>OCTOBER</span>
-                    <strong>02</strong>
-                    <span>FRIDAY · 9 AM</span>
+                  <div className="feature-bottom">
+                    <span><MapPin size={16} />{featured.venue}</span>
+                    <span>Free admission <span className="separator-dot">·</span> {featured.audience}</span>
                   </div>
-                </div>
-                <div className="feature-bottom">
-                  <span>
-                    <MapPin size={16} />
-                    {featured.venue}
-                  </span>
-                  <span>
-                    Free admission <span className="separator-dot">·</span> Open
-                    to the community
-                  </span>
-                </div>
+                </> : <div className="feature-main"><div>
+                  <h2>{spotlightEmptyTitle}</h2>
+                  <p>{spotlightPending ? "Getting the latest school programme." : error ? "Please retry to load the current programme." : "New events will appear here when they are scheduled."}</p>
+                </div></div>}
               </section>
               <aside className="next-up">
-                <p className="eyebrow">THE COUNTDOWN IS ON</p>
-                <h3>
-                  Good ideas
-                  <br />
-                  are almost here.
-                </h3>
-                <div
-                  className="countdown"
-                  aria-label="Countdown to innovation exhibition"
-                >
+                <p className="eyebrow">{featured ? "STARTS IN" : "UP NEXT"}</p>
+                <h3>{featured ? featured.title : spotlightEmptyTitle}</h3>
+                {featured && <div className="countdown" aria-label={`Countdown to ${featured.title}`}>
                   {[
                     Math.floor(remaining / 86400000),
                     Math.floor(remaining / 3600000) % 24,
                     Math.floor(remaining / 60000) % 60,
                   ].map((n, i) => (
                     <div key={i}>
-                      <b>{now ? String(n).padStart(2, "0") : "-"}</b>
+                      <b>{String(n).padStart(2, "0")}</b>
                       <span>{["DAYS", "HOURS", "MINS"][i]}</span>
                     </div>
                   ))}
-                </div>
+                </div>}
                 <div className="notice-teaser">
                   <Megaphone size={19} />
                   <div>
@@ -408,23 +397,28 @@ function CalendarView({
   setMonth: (d: Date) => void;
   open: (e: SchoolEvent) => void;
 }) {
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const first =
       (new Date(month.getFullYear(), month.getMonth(), 1).getDay() + 6) % 7,
     days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate();
   const monthKey = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}`;
   const monthEvents = events.filter((event) => event.starts.startsWith(monthKey))
     .sort((a, b) => a.starts.localeCompare(b.starts));
+  const activeDate = selectedDate?.startsWith(monthKey) ? selectedDate : null;
+  const visibleEvents = activeDate
+    ? monthEvents.filter((event) => event.starts.slice(0, 10) === activeDate)
+    : monthEvents;
   return (
     <section className="calendar-section">
       <div className="section-heading">
         <div>
-          <p className="eyebrow">MAKE SPACE FOR SCHOOL LIFE</p>
+          <p className="eyebrow">EVENT CALENDAR</p>
           <h2>
             {month.toLocaleString("en-GB", { month: "long", year: "numeric" })}
           </h2>
         </div>
         <div className="calendar-controls">
-          <Button variant="outline" onClick={() => setMonth(new Date())}>
+          <Button variant="outline" onClick={() => { setSelectedDate(null); setMonth(new Date()); }}>
             Today
           </Button>
           <Button
@@ -449,11 +443,36 @@ function CalendarView({
           </Button>
         </div>
       </div>
-      <div className="mobile-agenda" aria-label="Events this month">
-        {monthEvents.length === 0 ? (
-          <div className="agenda-empty"><h3>A little breathing room.</h3>
-            <p>No events scheduled this month. Explore another month using the arrows above.</p></div>
-        ) : monthEvents.map((event) => (
+      <div className="mobile-month" aria-label="Monthly calendar">
+        <div className="mobile-month-grid">
+          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+            <span className="mobile-weekday" key={day}>{day}</span>
+          ))}
+          {Array.from({ length: Math.ceil((first + days) / 7) * 7 }, (_, index) => {
+            const day = index - first + 1;
+            if (day < 1 || day > days) return <span className="mobile-day-blank" key={index} />;
+            const key = `${monthKey}-${String(day).padStart(2, "0")}`;
+            const count = monthEvents.filter((event) => event.starts.slice(0, 10) === key).length;
+            return <button
+              key={key}
+              className={`mobile-day ${count ? "has-events" : ""}`}
+              aria-pressed={activeDate === key}
+              aria-label={`${day} ${month.toLocaleString("en-GB", { month: "long", year: "numeric" })}, ${count} ${count === 1 ? "event" : "events"}`}
+              onClick={() => setSelectedDate(activeDate === key ? null : key)}
+            ><span>{day}</span><span className="day-marker" aria-hidden="true">{count > 1 ? count : count === 1 ? "•" : ""}</span></button>;
+          })}
+        </div>
+        <p className="calendar-legend"><span aria-hidden="true" /> Event scheduled. Tap a date to see details.</p>
+      </div>
+      <div className="mobile-agenda" aria-label="Calendar events">
+        <div className="agenda-heading" aria-live="polite">
+          <h3>{activeDate ? dateLabel(`${activeDate}T12:00:00+05:30`) : "This month’s events"}</h3>
+          {activeDate && <button onClick={() => setSelectedDate(null)}>Show all</button>}
+        </div>
+        {visibleEvents.length === 0 ? (
+          <div className="agenda-empty"><h3>No events scheduled.</h3>
+            <p>{activeDate ? "Choose another date or show all events this month." : "Use the month controls to explore the programme."}</p></div>
+        ) : visibleEvents.map((event) => (
           <button className="agenda-event" key={event.id} onClick={() => open(event)}>
             <span className="agenda-date">
               <b>{Number(event.starts.slice(8, 10))}</b>
