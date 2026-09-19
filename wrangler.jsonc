@@ -8,13 +8,13 @@
     {
       "binding": "DB",
       "database_name": "assembly-events",
-      "database_id": "00000000-0000-4000-8000-000000000000",
+      "database_id": "631d59ec-e28e-423c-9ffd-19ac01973992",
       "migrations_dir": "drizzle"
     }
   ],
   "vars": {
-    "ACCESS_TEAM_DOMAIN": "",
-    "ACCESS_AUD": "",
-    "ADMIN_EMAILS": "mahirumanthila@gmail.com"
-  }
+  "ACCESS_TEAM_DOMAIN": "https://restless-frost-3994.cloudflareaccess.com",
+  "ACCESS_AUD": "deb05e668b75079de4558d88cb52c8d4fcb3a25f63ebb077f2d1c0b87b8bce2a",
+  "ADMIN_EMAILS": "mahirumanthila@gmail.com"
+}
 }
