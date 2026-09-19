@@ -103,11 +103,10 @@ export default function Assembly() {
       <div className="school-strip">
         <span>
           <span className="tiny-square" />
-          NALANDA COLLEGE <span className="strip-slash">/</span> COMMUNITY &
-          CAMPUS LIFE
+          NALANDA COLLEGE <span className="strip-slash">/</span> Countless events, one website
         </span>
         <span>
-          Colombo, Sri Lanka <span className="strip-slash">·</span> GMT +5:30
+          Colombo, Sri Lanka <span className="strip-slash">·</span> Built by Mahiru Lokugamage
         </span>
       </div>
       <main id="main">
