@@ -103,7 +103,7 @@ export default function Assembly() {
       <div className="school-strip">
         <span>
           <span className="tiny-square" />
-          ROYAL COLLEGE <span className="strip-slash">/</span> COMMUNITY &
+          NALANDA COLLEGE <span className="strip-slash">/</span> COMMUNITY &
           CAMPUS LIFE
         </span>
         <span>
