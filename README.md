@@ -2,11 +2,11 @@
 
 Assembly is a school events website for the BTUI ’26 Web Development challenge. Students, teachers and parents can check dates, read announcements and register for events. Organisers can update the schedule and check tickets at the door.
 
-**Live application:** [Assembly](https://assembly-events.mahiru-sclevents.workers.dev)
+**Live application:** https://assembly-events.mahiru-sclevents.workers.dev
 
-**Public repository:** [Assembly-eventplanner](https://github.com/MahiruLokug/Assembly-eventplanner)
+**Public repository:** https://github.com/MahiruLokug/Assembly-eventplanner
 
-**Organiser workspace:** [Organiser sign-in](https://assembly-events.mahiru-sclevents.workers.dev/organiser) (approved organisers only)
+**Organiser workspace:** https://assembly-events.mahiru-sclevents.workers.dev/organiser 
 
 ## Purpose and objectives
 
@@ -125,6 +125,5 @@ Public event registration does not include email verification or confirmation em
 - `node --experimental-strip-types --test tests/spotlight.test.mjs`: check event ordering, cancellations, timezone offsets and countdown rollover.
 - `npm run build`: compile the production Worker and browser assets.
 
-## Submission
 
-Submit the public repository and live application links through the official BTUI website. Check both links while signed out. Follow the competition's originality and assistance rules, and finish testing before submitting because only the first submission is evaluated.
+Built by Mahiru Lokugamage from Nalanda College
