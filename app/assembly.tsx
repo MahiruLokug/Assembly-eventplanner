@@ -361,7 +361,7 @@ export default function Assembly() {
           <a className="brand footer-brand" href="/">
             assembly.
           </a>
-          <p>A little less searching. A lot more showing up.</p>
+          <p>School events, dates and registrations.</p>
           <span>
             Built for BTUI ’26 <span className="strip-slash">/</span> Sample
             school programme

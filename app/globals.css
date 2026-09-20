@@ -1286,7 +1286,7 @@ footer > span {
     scroll-behavior: auto !important;
   }
 }
-/* Readable labels and touch targets across the programme. */
+/* Shared label sizes and touch targets. */
 .eyebrow,
 .school-name,
 .school-strip,
@@ -1492,7 +1492,7 @@ footer {
   }
 }
 
-/* Pearl silver surfaces, maroon accents and layouts sized for touch. */
+/* Theme and responsive layout. */
 :root { --background: #f8f7f8; --ring: #8e4560; --radius: 0.75rem; }
 .topbar { height: 88px; }
 .brand-mark { border-radius: 12px; color: #eee7ed; }
@@ -1648,7 +1648,7 @@ footer {
   .main-tabs [data-slot="tabs-trigger"] { font-size: 11px; }
 }
 
-/* An understated silver finish with a maroon signature. */
+/* Silver panels and maroon accents. */
 :root { --primary: #711f3d; --primary-foreground: #ffffff; --sidebar-primary: #711f3d; }
 .brand-mark { background: #711f3d; box-shadow: inset 0 1px 0 #ffffff40, 0 3px 8px #54223a1a; }
 .school-strip { background: linear-gradient(100deg, #efedf0, #faf9fa 52%, #ebe8ed); }
@@ -1663,7 +1663,7 @@ footer {
 .main-tabs [data-slot="tabs-trigger"]:after { background: #711f3d !important; }
 .next-up { border-top: 3px solid #cec2cd; box-shadow: 0 8px 22px -18px #54223a40; }
 
-/* Direct page title and a complete, touch-friendly mobile month view. */
+/* Page heading and mobile calendar. */
 .page-heading h1 { font-family: Georgia, serif; font-size: clamp(36px, 4.3vw, 58px); font-weight: 400; letter-spacing: -1.8px; line-height: 1.15; margin-block: 10px 12px; }
 .page-heading { padding-block: 48px 38px; }
 .intro { line-height: 1.7; }
@@ -1701,7 +1701,7 @@ footer {
 }
 
 
-/* Keep organiser-provided event content within the spotlight layout. */
+/* Clamp long descriptions; full text is available in the event dialog. */
 .feature-main > div:first-child { min-width: 0; flex: 1; }
 .feature h2, .next-up h3 { overflow-wrap: anywhere; }
 .feature-tag { overflow-wrap: anywhere; text-align: right; }
@@ -1711,7 +1711,7 @@ footer {
 .countdown b { font-size: clamp(24px, 2.5vw, 38px); }
 @media (max-width: 760px) { .countdown b { font-size: 34px; } }
 
-/* Higher-contrast school identity with one continuous mobile strip. */
+/* Single-line school strip; scroll horizontally on phones. */
 .page-heading h1 em { color: #711f3d; }
 .school-strip { background: #681d38; color: #f5f1f5; border-color: #54162d; }
 .school-strip .strip-school { color: #ffffff; }

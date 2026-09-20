@@ -66,9 +66,9 @@ export default function Organiser() {
       <p className="eyebrow" style={{ marginTop: 35 }}>
         ORGANISER WORKSPACE
       </p>
-      <h1>Make it happen.</h1>
+      <h1>Manage school events</h1>
       <p className="muted">
-        Manage the programme, keep everyone informed and welcome your attendees.
+        Create events, post announcements and check in attendees.
       </p>
       <p className="muted" style={{ margin: "15px 0" }}>
         Competition demo · sample school programme

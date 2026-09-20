@@ -78,7 +78,7 @@ export const seedEvents: SchoolEvent[] = [
   },
   {
     id: "community-day",
-    title: "A greener campus",
+    title: "A greener school",
     category: "Community",
     starts: "2026-10-10T08:30:00+05:30",
     ends: "2026-10-10T11:30:00+05:30",
